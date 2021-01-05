@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     //  SharedPreferences sharedPreferences;
     StorageReference storageReference;
     DatabaseReference databaseReference;
-    String currentpath;
+    String current;
 
 
     @Override
@@ -137,30 +137,10 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 2) {
 
             if (resultCode == RESULT_OK) {
-                // ImageView iv = findViewById(R.id.iv);
                 Uri u = data.getData();
                 iv.setImageURI(u);
                 uploadimage("name",u);
 
-               /* if (iv != null) {
-                    StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + u);
-                    storageReference2.putFile(u)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                                    String title = tv.getText().toString().trim();
-                                    @SuppressWarnings("VisibleForTests")
-                                    uploadinfo imageUploadInfo = new uploadinfo(title, taskSnapshot.toString());
-                                    String ImageUploadId = databaseReference.push().getKey();
-                                    databaseReference.child(ImageUploadId).setValue(imageUploadInfo);
-                                }
-                            });
-                } else {
-
-                    Toast.makeText(MainActivity.this, "hi", Toast.LENGTH_LONG).show();
-
-                }*/
             }
 
         }
@@ -169,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 6) {
             if (resultCode == RESULT_OK) {
 
-                File f=new File(currentpath);
+                File f=new File(current);
                 iv.setImageURI(Uri.fromFile(f));
 
                 it=new  Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -197,36 +177,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentpath = image.getAbsolutePath();
+        File image = File.createTempFile( imageFileName,  ".jpg", storageDir);
+        current = image.getAbsolutePath();
         return image;
     }
 
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
 
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
+            }            if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.gopiraju.android.fileprovider",
                         photoFile);
