@@ -1,6 +1,5 @@
 package com.gopiraju.intent_task1;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -9,25 +8,18 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     TextView tv;
     ImageView iv;
     Intent it;
-    //  SharedPreferences sharedPreferences;
     StorageReference storageReference;
     DatabaseReference databaseReference;
     String current;
@@ -63,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
         storageReference= FirebaseStorage.getInstance().getReference("Images");
         databaseReference= FirebaseDatabase.getInstance().getReference("Images");
 
-      /*  sharedPreferences=(SharedPreferences)getSharedPreferences("Gopiraju",MODE_PRIVATE);
-        if (sharedPreferences.contains("Gold"))
-        {
-            tv.setText(sharedPreferences.getString("Gold"," "));
-          }
-*/
 
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,12 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 Bundle b = data.getExtras();
                 String sts = b.getString("gopi");
                 tv.setText(sts);
-/*                if (tv.length() != 0) {
-                    String value1 = tv.getText().toString().trim();
-                    SharedPreferences.Editor sre = sharedPreferences.edit();
-                    sre.putString("Gold", value1).commit();
-
-                }*/
             }
         }
 
@@ -220,9 +199,5 @@ public class MainActivity extends AppCompatActivity {
                 databaseReference.child("Gopiraju").setValue(imageUploadInfo);
             }
         });
-
-
-
-
           }
 }
